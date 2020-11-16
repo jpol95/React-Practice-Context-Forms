@@ -1,5 +1,8 @@
 import React from 'react';
 import './App.css';
+import ProfileSection from './ProfileSection'
+import AppContext from './AppContext'
+import AddNewProfile from './AddNewProfile'
 
 class App extends React.Component {
 
@@ -23,12 +26,27 @@ class App extends React.Component {
     }
   }
   
+  onSubmit = (profile) => {
+    console.log(profile)
+    const nameArray = profile.name.split(" ")
+    this.setState( {profiles: [...this.state.profiles, {
+      firstName: nameArray[0], 
+      lastName: nameArray[1], 
+      role: profile.role, 
+      id: profile.id
+    }]})
+
+  }
+
   render(){
+
     return (
+      <AppContext.Provider value={{profiles: this.state.profiles, onSubmit: this.onSubmit}} >
       <div>
-          {/* Display the full list of Profiles */}
-          {/* Add a form to add a new profile to the list  */}
+          {<ProfileSection />}
+          {<AddNewProfile />}
       </div>
+      </AppContext.Provider>
     );
   }
 }
